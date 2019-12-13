@@ -4,9 +4,11 @@ import { getEmployeeLogin } from './services/user-service';
 import { userRouter } from './routers/user-router';
 import { reimbursementRouter } from './routers/reimbursement-router';
 import { sessionMiddleware } from './middleware/session';
+import { corsFilter } from './middleware/cors-middleware';
 
 const app = express();
 app.use(bodyparser.json());
+app.use(corsFilter);
 app.use(sessionMiddleware);
 
 app.post(`/login`, async (req, res) => {
