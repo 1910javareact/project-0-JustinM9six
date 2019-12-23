@@ -54,8 +54,10 @@ export async function daoSubmitR(r: Reimbursement): Promise<Reimbursement> {
     let client: PoolClient;
     client = await connectionPool.connect();
     try {
+        let id = await client.query(`select max(reimbursement_id) from project_0.reimbursement;`);
+        id = id.rows[0].max + 1;
         await client.query(`INSERT INTO project_0.reimbursement(reimbursement_id, author, amount, date_submitted, date_resolved, description, resolver, status, "type") VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9) RETURNING reimbursement_id;`,
-            [r.reimbursement_id, r.author, r.amount, r.date_submitted, r.date_resolved, r.description, r.resolver, r.status, r.type]);
+            [id, r.author, r.amount, r.date_submitted, r.date_resolved, r.description, r.resolver, r.status, r.type]);
         return r;
         //If we catch an error we need to rollback any changes we may have made in the try block
     } catch (e) {

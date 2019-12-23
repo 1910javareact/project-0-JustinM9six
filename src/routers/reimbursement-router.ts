@@ -7,7 +7,7 @@ import { updateR } from '../services/reimbursement-service';
 export const reimbursementRouter = express.Router();
 
 //Get reimbursement by Status
-reimbursementRouter.get('/status/:statusId', [authorization(['Admin', 'Finance-manager']), async (req, res) => {
+reimbursementRouter.get('/status/:statusId', [authorization(['Admin', 'Finance-Manager', 'User']), async (req, res) => {
     const id = +req.params.statusId;
     //If they entered an id that was not a number
     if (isNaN(id)) {
@@ -22,7 +22,7 @@ reimbursementRouter.get('/status/:statusId', [authorization(['Admin', 'Finance-m
     }
 }]);
 
-reimbursementRouter.get('/author/userId/:userId', [authorization(['Admin', 'Finance-manager']), async (req, res) => {
+reimbursementRouter.get('/author/userId/:userId', [authorization(['Admin', 'Finance-Manager', 'User']), async (req, res) => {
     const id = +req.params.userId;
     if (isNaN(id)) {
         res.status(400).send(`Please enter a valid User id`);
@@ -36,7 +36,7 @@ reimbursementRouter.get('/author/userId/:userId', [authorization(['Admin', 'Fina
     }
 }]);
 
-reimbursementRouter.post('', [authorization(['Admin', 'Finance-manager', 'User']), async (req, res) => {
+reimbursementRouter.post('', [authorization(['Admin', 'Finance-Manager', 'User']), async (req, res) => {
     const{body} = req;
     //let{author} = body
     const newR = new Reimbursement(0, 0, 0, 0, 0, ``, 0, 0, 0);
@@ -58,7 +58,7 @@ reimbursementRouter.post('', [authorization(['Admin', 'Finance-manager', 'User']
     }
 }]);
 
-reimbursementRouter.patch('', [authorization(['Admin', 'Finance-manager']), async (req, res) => {
+reimbursementRouter.patch('', [authorization(['Admin', 'Finance-Manager']), async (req, res) => {
     //let id = +req.params.id
     const { body } = req;
     // if(isNaN(id)) {
